@@ -20,7 +20,7 @@
       {
         "name": "country",
         "in": "query",
-        "description": "Filter products by country (e.g., 'south korea', 'japan')",
+        "description": "Filter products by country or region name (e.g., 'japan', 'south korea', 'europe', 'asia','north america','africa','balkans','china&hongkong&macao','malaysia&singapore')",
         "required": false,
         "schema": {
           "type": "string"
