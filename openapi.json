@@ -1,0 +1,116 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "ChillaxSIM ChatGPT Plugin API",
+      "version": "1.0.0",
+      "description": "Provides ChillaxSIM product listings and generates checkout links for ChatGPT plugin."
+    },
+    "servers": [
+      {
+        "url": "https://eo2hfkhseekdfjd.m.pipedream.net",
+        "description": "ChillaxSIM Pipedream API"
+      }
+    ],
+    "paths": {
+      "/products": {
+        "get": {
+          "summary": "List all available eSIM products",
+          "operationId": "getProducts",
+          "responses": {
+            "200": {
+              "description": "Returns a list of eSIM products",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Product"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/checkout": {
+        "post": {
+          "summary": "Generate checkout link for eSIM product",
+          "operationId": "createCheckoutLink",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Returns the checkout URL",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CheckoutResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Product": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "title": { "type": "string" },
+            "coverage": { "type": "string" },
+            "ekyc": { "type": "string" },
+            "dataunit": { "type": "string" },
+            "activationinfo": { "type": "string" },
+            "variants": {
+              "type": "array",
+              "items": { "$ref": "#/components/schemas/Variant" }
+            }
+          },
+          "required": ["id", "title", "variants"]
+        },
+        "Variant": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "title": { "type": "string" },
+            "price": { "type": "number", "format": "float" },
+            "currency": { "type": "string" },
+            "planname": { "type": "string" },
+            "data": { "type": "string" },
+            "service_days": { "type": "string" },
+            "package_type": { "type": "string" },
+            "telephony": { "type": "string" },
+            "reducedspeed": { "type": "string" }
+          },
+          "required": ["id", "title", "price", "currency"]
+        },
+        "CheckoutRequest": {
+          "type": "object",
+          "properties": {
+            "product_id": { "type": "string" },
+            "quantity": { "type": "integer", "default": 1 }
+          },
+          "required": ["product_id"]
+        },
+        "CheckoutResponse": {
+          "type": "object",
+          "properties": {
+            "checkout_url": { "type": "string" }
+          },
+          "required": ["checkout_url"]
+        }
+      }
+    }
+  }
