@@ -12,27 +12,59 @@
     }
   ],
   "paths": {
-    "/products": {
-      "get": {
-        "operationId": "getProducts",
-        "summary": "Get all available eSIM products",
-        "responses": {
-          "200": {
-            "description": "List of products",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Product"
-                  }
-                }
+"/products": {
+  "get": {
+    "operationId": "getProducts",
+    "summary": "Get all available eSIM products, optionally filtered by country",
+    "parameters": [
+      {
+        "name": "country",
+        "in": "query",
+        "description": "Filter products by country (e.g., 'south korea', 'japan')",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "description": "Number of products to return",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 3
+        }
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "description": "Offset for pagination",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 0
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "List of products",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Product"
               }
             }
           }
         }
       }
-    },
+    }
+  }
+}
+,
     "/checkout": {
       "post": {
         "operationId": "createCheckoutLink",
